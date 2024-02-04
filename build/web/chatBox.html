@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>chat box</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <style>
+            body {font-family: Arial, Helvetica, sans-serif;}
+            * {box-sizing: border-box;}
+
+            /* Button used to open the chat form - fixed at the bottom of the page */
+            .open-button {
+                background-color: #555;
+                color: white;
+                padding: 16px 20px;
+                border: none;
+                cursor: pointer;
+                opacity: 0.8;
+                position: fixed;
+                bottom: 23px;
+                right: 28px;
+                width: 280px;
+            }
+
+            /* The popup chat - hidden by default */
+            .chat-popup {
+                display: none;
+                position: fixed;
+                bottom: 0;
+                right: 15px;
+                border: 3px solid #f1f1f1;
+                z-index: 9;
+                border-radius:20px;
+            }
+
+            /* Add styles to the form container */
+            .form-container {
+                max-width: 300px;
+                padding: 5px 10px 10px 10px;
+                background-color: white;
+                border-radius:17px;
+            }
+
+            /* Full-width textarea */
+            .form-container textarea {
+                width: 100%;
+                padding: 5px;
+                margin: 5px 0 10px 0;
+                border: none;
+                font-family: "times new roman";
+                background: rgb(215, 222, 226);
+                resize: none;
+                min-height: 20px;
+                max-height: 70px;
+            }
+
+            /* When the textarea gets focus, do something */
+            .form-container textarea:focus {
+                background-color: #ddd;
+                outline: none;
+            }
+
+            /* Set a style for the submit/send button */
+            .form-container .btn {
+                background-color: rgb(255, 243, 27);
+                color: white;
+                padding: 16px 20px;
+                border: none;
+                cursor: pointer;
+                width: 100%;
+                margin-bottom:10px;
+                opacity: 0.8;
+            }
+
+            /* Add a red background color to the cancel button */
+            .form-container .cancel {
+                background-color: red;
+            }
+
+            /* Add some hover effects to buttons */
+            .form-container .btn:hover, .open-button:hover {
+                opacity: 1;
+            }
+            .seller{
+                float:left;
+                margin-left:30%;
+                min-width: 60%;
+            }
+            .buyer{
+                float:right;
+                margin-right: 30%;
+                min-width:60%;
+            }
+            .s-text{
+                float: right;
+                padding: 5px;
+                border-radius: 10px;
+                border: azure;
+                background-color: rgb(219, 220, 221);
+            }
+            .b-text{
+                float:left;
+                padding: 5px;
+                border-radius: 10px;
+                border: azure;
+                background-color: rgba(141, 255, 89, 0.6588235294117647);
+            }
+        </style>
+        <script>
+            function getMessages()
+            {
+                if (window.XMLHttpRequest)
+                {
+                    request = new XMLHttpRequest();
+                } else if (window.ActiveXObject)
+                {
+                    request = new ActiveXObject("Microsoft.XMLHTTP");
+                }
+                try
+                {
+                    request.onreadystatechange = setMessages;
+                    request.open("POST", "Chat", true);
+                    request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+                    request.send();
+                } catch (e)
+                {
+                    alert("Unable to connect to server." + e);
+                }
+            }
+            function setMessages()
+            {
+                if (request.readyState === 4)
+                {
+                    var text = request.responseText;
+                    console.log(text);
+                    var obj = JSON.parse(text);
+                    var j = 0;
+                    if (obj.length > 0)
+                    {
+                        console.log(text);
+                        for (var i = 0; i < obj.length; i++)
+                        {
+                            if(obj[i].sender==="00AAH")
+                            {
+                                 addRowForSender(obj[i].message);
+                            }
+                            else
+                            {
+                                addRowForBuyer(obj[i].message);
+                            }
+                            console.log(obj[i].message);
+                        }
+                    }
+                }
+            }
+            function addRowForSender(text) {
+                console.log("from seller");
+                const div = document.createElement('div');
+
+                div.className = 'seller';
+
+                div.innerHTML = '<p class="s-text">'+text+'</p>';
+
+                document.getElementById('parent').appendChild(div);
+            }
+            function addRowForBuyer(text) {
+                console.log("from buyer");
+                const div2 = document.createElement('div');
+
+                div2.className = 'buyer';
+
+                div2.innerHTML = '<p class="b-text">'+text+'</p>';
+
+                document.getElementById('parent').appendChild(div2);
+            }
+            function sendMessage()
+            {
+                
+            }
+        </script>
+    </head>
+    <body>
+        <div style="width:100%;height:1000px;background-color: blue;">TODO write content
+            <h2>Popup Chat Window</h2>
+            <p>Click on the button at the bottom of this page to open the chat form.</p>
+            <p>Note that the button and the form is fixed - they will always be positioned to the bottom of the browser window.</p>
+
+            <button class="open-button" onclick="openForm();getMessages();">Chat</button>
+
+            <div class="chat-popup" id="myForm">
+                <form action="/action_page.php" class="form-container">
+                    <center><h3 style="border-bottom: 1px solid black;">Kamakshi Nanda</h3></center>
+                    <div id="parent" style="max-height: 300px;overflow: auto;padding: 0px 20px 0px 10px;">
+                    </div>
+                    <textarea placeholder="Type a message.." name="msg" required></textarea>
+                    <button type="submit" class="btn" onclick="sendMessage()">Send</button>
+                    <button type="button" class="btn cancel" onclick="closeForm()">Close</button>
+                </form>
+            </div>
+            <script>
+                function openForm() {
+                    document.getElementById("myForm").style.display = "block";
+                }
+
+                function closeForm() {
+                    document.getElementById("myForm").style.display = "none";
+                }
+            </script>
+        </div>
+    </body>
+</html>

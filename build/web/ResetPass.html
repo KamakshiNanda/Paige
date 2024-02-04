@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>Forgot Password</title>
+        <link rel="stylesheet" type="text/css" href="styles\animation2.css">
+        <style>
+            @-webkit-keyframes animatezoom
+            {
+                from
+                {
+                    -webkit-transform: scale(0);
+                } 
+            to
+                {
+                    -webkit-transform: scale(1);
+                }
+            }
+  
+            @keyframes animatezoom
+            {
+              from
+              {
+              transform: scale(0);
+              } 
+              to
+              {
+              transform: scale(1);
+              }
+            } 
+            body{
+                background: #000000;
+                /*background-image: url(book-67049__340.jpg);*/
+                font-family: "Roboto", sans-serif;
+                -webkit-font-smoothing: antialiased;
+                -moz-osx-font-smoothing: grayscale;   
+            }
+            #resetPassword
+            {
+                /*width: 360px;
+                padding: 7% 0 0;
+                margin: auto;*/
+                animation-name: animatezoom;
+                animation-duration: 0.6s;
+            }
+            .form {
+                    /*border:10px solid red;*/
+                     position:relative;
+                     z-index: 2;
+                     background: #FFFFFF;
+                     max-width: 360px;
+                     margin: 200px auto 100px;
+                     padding: 45px;
+                     text-align: center;
+                     box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
+                  }
+            .form input
+                  {
+                     font-family: "Roboto", sans-serif;
+                     outline: 0;
+                     background: #f2f2f2;
+                     width: 100%;
+                     border: 0;
+                     margin: 0 0 15px;
+                     padding: 15px;
+                     box-sizing: border-box;
+                     font-size: 14px;
+                  }
+            #btn
+                {
+                     font-family: "Roboto", sans-serif;
+                     text-transform: uppercase;
+                     outline: 0;
+                     background:rgba(239, 158, 10, 0.9098039215686274); ;
+                     width: 100%;
+                     border: 0;
+                     padding: 15px;
+                     color: #FFFFFF;
+                     font-size: 14px;
+                     -webkit-transition: all 0.3 ease;
+                     transition: all 0.3 ease;
+                     cursor: pointer;
+                     
+                }
+                #btn:hover,#btn:active,#btn:focus 
+                {
+                    background: rgba(252, 244, 4, 0.47);
+                }
+        </style>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body >
+        <div class="area" >
+            <ul class="circles" style="padding-left: 0px;margin-top: 0px;margin-bottom: 0px;">
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+            </ul>
+        </div >
+        <div class="form" style="margin-top: 150px;">
+        <form id="resetPassword" action="ChangePassword" method="post" onSubmit="return matchPasswords()">
+            <p id="fya" style="margin:auto auto;font-size: 20px;"><b>Set New Password</b></p><br/><br/>
+            <input type="password" placeholder="Password" id="password" name="pswd" maxlength="11" pattern=".{5,11}"  title="Password should contain 5 to 11 characters." required/>
+            <input onkeyup="matchPasswords()" type="password" placeholder="Confirm Password" maxlength="11" id="confirmpassword" required/>
+            <p id="errormessage" style="display:none;color:red;text-align: left;margin-top: 2px;"></p>
+            <input id="btn" type="submit" value="Submit" onclick="sendInfo()">
+        </form>
+        </div>
+        <script>
+            function matchPasswords()
+            {
+                var pswd=document.getElementById("password").value;
+                var cpswd=document.getElementById("confirmpassword").value;
+                if(pswd!=cpswd)
+                {
+                    var em=document.getElementById("errormessage");
+                    em.style.display="flex";
+                    em.innerHTML="Both the passwords do not match.";
+                    return false;
+                }
+                else
+                {
+                    var em=document.getElementById("errormessage");
+                    em.style.display="none";
+                }
+            }
+        </script>
+    </body>
+</html>

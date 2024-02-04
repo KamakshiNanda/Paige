@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <!-- google recaptcha link -->
+        <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+        <title>Forgot Password</title>
+        <link rel="stylesheet" type="text/css" href="styles\animation2.css">
+        <style>
+            @-webkit-keyframes animatezoom
+            {
+                from
+                {
+                    -webkit-transform: scale(0);
+                } 
+                to
+                {
+                    -webkit-transform: scale(1);
+                }
+            }
+
+            @keyframes animatezoom
+            {
+                from
+                {
+                    transform: scale(0);
+                } 
+                to
+                {
+                    transform: scale(1);
+                }
+            } 
+            body{
+                background: #000000;
+                /*background-image: url(book-67049__340.jpg);*/
+                font-family: "Roboto", sans-serif;
+                -webkit-font-smoothing: antialiased;
+                -moz-osx-font-smoothing: grayscale;   
+            }
+            #forgotPassword
+            {
+                /*width: 360px;
+                padding: 7% 0 0;
+                margin: auto;*/
+                animation-name: animatezoom;
+                animation-duration: 0.6s;
+            }
+            .form {
+                /*border:10px solid red;*/
+                position:relative;
+                z-index: 2;
+                background: #FFFFFF;
+                max-width: 360px;
+                margin: 200px auto 100px;
+                padding: 45px;
+                text-align: center;
+                box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
+            }
+            .form input
+            {
+                font-family: "Roboto", sans-serif;
+                outline: 0;
+                background: #f2f2f2;
+                width: 100%;
+                border: 0;
+                margin: 0 0 15px;
+                padding: 15px;
+                box-sizing: border-box;
+                font-size: 14px;
+            }
+            #btn
+            {
+                font-family: "Roboto", sans-serif;
+                text-transform: uppercase;
+                outline: 0;
+                background:rgba(239, 158, 10, 0.9098039215686274); ;
+                width: 100%;
+                border: 0;
+                padding: 15px;
+                color: #FFFFFF;
+                font-size: 14px;
+                -webkit-transition: all 0.3 ease;
+                transition: all 0.3 ease;
+                cursor: pointer;
+
+            }
+            .loadd {
+                display: none;
+                margin-top: 10px !important; 
+                border: 8px solid rgba(0,0,0,0);
+                border-radius: 50%;
+                border-top: 8px solid rgba(239, 158, 10, 0.9);
+                width: 50px;
+                height: 50px;
+                -webkit-animation: spin 2s linear infinite; /* Safari */
+                animation: spin 2s linear infinite;
+            }
+            @keyframes spin {
+                0% { transform: rotate(0deg); }
+                100% { transform: rotate(360deg); }
+            }
+        </style>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body>
+        <div class="area" >
+            <ul class="circles" style="padding-left: 0px;margin-top: 0px;margin-bottom: 0px;">
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+            </ul>
+        </div >
+        <div class="form">
+            <form id="forgotPassword" action="ResetPassword" method="post" >
+                <p id="fya" style="margin:auto auto;"><b>Find Your Account</b></p><br/><br/>
+                <input type="email" placeholder="Email Address" id="ea" name="emailaddress" required/>
+                <input style="display:none;" type="text" placeholder="OTP" id="otp" name="otp" />
+                <!--<center>
+                <div class="g-recaptcha" data-sitekey="6LfGEbQUAAAAAHNpJ1qc0D2u5y3KiKGcZ33C4H71"></div>
+                </center>-->
+                <p style="text-align:left;display:none;color:red;margin-top:2px;" id="printmessage" ></p>
+                <input id="btn" type="button" value="Search" onclick="sendInfo()">
+            </form>
+            <center>
+                <div class="loadd">
+                </div>
+            </center>
+        </div>
+        <script>
+            var request, flag = 0, ea;
+            function sendInfo()
+            {
+                document.getElementsByClassName("loadd")[0].style.display = "block";
+                document.getElementById("printmessage").style.display = "none";
+                if (document.getElementById("btn").value == "Search")
+                {
+                    //alert("here");
+                    ea = document.getElementById("ea").value;
+                    if (window.XMLHttpRequest)
+                    {
+                        request = new XMLHttpRequest();
+                        //alert("request object created");
+                    } else if (window.ActiveXObject)
+                    {
+                        request = new ActiveXObject("Microsoft.XMLHTTP");
+                        alert("ActiveXObject object created");
+                    }
+                    try
+                    {
+                        request.onreadystatechange = getInfo;
+                        request.open("POST", "ForgotPassword", true);
+                        request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+                        request.send("ea=" + ea);
+                        // alert(request.readyState);
+                    } catch (e)
+                    {
+                        alert("Unable to connect to server." + e);
+                    }
+                } else if (document.getElementById("btn").value == "Submit")
+                {
+                    otp = document.getElementById("otp").value;
+                    if (window.XMLHttpRequest)
+                    {
+                        request = new XMLHttpRequest();
+                    } else if (window.ActiveXObject)
+                    {
+                        request = new ActiveXObject("Microsoft.XMLHTTP");
+                        alert("ActiveXObject object created");
+                    }
+                    try
+                    {
+                        request.onreadystatechange = getInfo;
+                        request.open("POST", "ForgotPassword", true);
+                        request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+                        request.send("ea=" + ea + "&otp=" + otp);
+                        // alert(request.readyState);
+                    } catch (e)
+                    {
+                        alert("Unable to connect to server." + e);
+                    }
+                }
+            }
+            function getInfo()
+            {
+                if (request.readyState == 4)
+                {
+
+                    document.getElementsByClassName("loadd")[0].style.display = "none";
+                    var text = request.responseText;
+                    //alert("we got the text"+text);
+                    if (document.getElementById("btn").value == "Search")
+                    {
+                        if (text == "User found")
+                        {
+                            alert("Check your Gmail Account.");
+                            document.getElementById("otp").style.display = "inline";
+                            document.getElementById("btn").value = "Submit";
+                            document.getElementById("ea").style.display = "none";
+                            document.getElementById("fya").innerHTML = ea;
+                            //document.getElementById("fya").style.fontFamily="Tahoma";
+                            setTimeout(function () {
+                                location.reload()
+                            }, 180000);
+                            //document.getElementById("forgotPassword").submit();
+                        } else
+                        {
+                            document.getElementById("printmessage").innerHTML = text;
+                            document.getElementById("printmessage").style.display = "block";
+                        }
+                    } else
+                    {
+                        if (text == "Correct OTP.")
+                        {
+                            document.getElementById("forgotPassword").submit();
+                        } else
+                        {
+                            //alert(text);
+                            document.getElementById("printmessage").innerHTML = text;
+                            document.getElementById("printmessage").style.display = "block";
+                        }
+                    }
+                }
+            }
+
+        </script>
+    </body>
+</html>

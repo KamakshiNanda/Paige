@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>Paige|Shop</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script>
+            function sendRequest()
+            {
+                console.log("js called");
+                if (window.XMLHttpRequest)
+                {
+                    request = new XMLHttpRequest();
+                } else if (window.ActiveXObject)
+                {
+                    request = new ActiveXObject("Microsoft.XMLHTTP");
+                }
+                try
+                {
+                    request.onreadystatechange = getData;
+                    request.open("POST", "Demo", true);
+                    request.setRequestHeader("Content-type", "application/x-www-form-urlencoded")
+                    //request.send("search=" + searchValue);
+                    request.send();
+                } catch (e)
+                {
+                    alert("Unable to connect to server." + e);
+                }
+                return false;
+            }
+            function getData()
+            {
+                console.log("getsignin called" + request.readyState);
+                if (request.readyState === 4)
+                {
+                    var text = request.responseText;
+                    console.log(text);
+                    document.getElementById("image").src="data:image/gif;base64,"+text;
+                    
+                    //var obj = JSON.parse(text);
+                }
+            }
+        </script>
+    </head>
+    <body >
+        <img src="#" id="image" alt="images here" height="100" width="200">
+        <button onclick="sendRequest()">Get Image</button>
+    </body>
+</html>
